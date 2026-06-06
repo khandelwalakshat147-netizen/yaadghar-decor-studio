@@ -51,7 +51,7 @@ export const Hero = () => {
             </div>
             <div className="flex items-center gap-1">
               {[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-gold text-gold" />)}
-              <span className="ml-1 text-sm font-medium">49/5</span>
+              <span className="ml-1 text-sm font-medium whitespace-pre-wrap">3.9/5{"\n\n\n\n"}</span>
             </div>
           </div>
         </div>
