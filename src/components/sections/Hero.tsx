@@ -22,9 +22,6 @@ export const Hero = () => {
             beautiful <span className="text-gradient-gold">fridge magnets</span>
           </h1>
 
-          <p className="font-hindi text-xl text-primary/90">
-            हर पल को बनाएँ खास — अपनी यादों का घर
-          </p>
 
           <p className="text-lg text-muted-foreground max-w-xl">
             Customised photo magnets & wall décor gifts for birthdays, couples, anniversaries
