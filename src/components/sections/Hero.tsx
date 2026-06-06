@@ -72,7 +72,7 @@ export const Hero = () => {
           </div>
           <div className="absolute -bottom-4 -left-4 rounded-2xl gradient-red px-5 py-4 text-primary-foreground shadow-elegant">
             <div className="text-xs opacity-90">Starting at</div>
-            <div className="font-display text-2xl font-bold">₹59 only</div>
+            <div className="font-display text-2xl font-bold">₹79 only</div>
           </div>
           <div className="absolute -top-4 -right-4 rounded-2xl bg-card px-5 py-4 shadow-gold border border-gold/30">
             <div className="text-xs text-muted-foreground">Fast Delivery</div>
