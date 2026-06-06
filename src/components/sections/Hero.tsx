@@ -50,7 +50,7 @@ export const Hero = () => {
                   <div key={i} className="h-9 w-9 rounded-full border-2 border-background gradient-gold" />
                 ))}
               </div>
-              <span className="text-sm font-medium">10,000+ happy customers</span>
+              <span className="text-sm font-medium">1000+ happy customers</span>
             </div>
             <div className="flex items-center gap-1">
               {[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-gold text-gold" />)}
