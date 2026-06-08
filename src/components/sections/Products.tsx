@@ -20,9 +20,9 @@ type Product = {
 };
 
 const products: Product[] = [
-  { name: "Round Magnet", size: "2x2 inch", shape: "Round", price: "₹59", img: round, tag: "Bestseller" },
-  { name: "Round Magnet", size: "2x3 inch", shape: "Round", price: "₹62", img: round },
-  { name: "Square Magnet", size: "3x3 inch", shape: "Square", price: "₹79", priceSub: "– ₹99", img: square, tag: "Popular" },
+  { name: "Round Magnet", size: "2x2 inch", shape: "Round", price: "₹79", img: round, tag: "Bestseller" },
+  { name: "Round Magnet", size: "2x3 inch", shape: "Round", price: "₹89", img: round },
+  { name: "Square Magnet", size: "3x3 inch", shape: "Square", price: "₹99", img: square, tag: "Popular" },
   { name: "Rectangular Magnet", size: "3x4 inch", shape: "", price: "Custom Pricing", img: rect, custom: true },
   { name: "Premium Magnet", size: "4x4 inch", shape: "Square", price: "₹149", priceSub: "– ₹199", img: large },
   { name: "XL Magnet", size: "4x6 inch", shape: "", price: "Custom Pricing", img: rect, custom: true },
