@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { MessageCircle, Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { waLink, WHATSAPP_NUMBER } from "@/lib/site";
+import { waLink, WHATSAPP_NUMBER, CALL_NUMBER } from "@/lib/site";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(60),
@@ -61,15 +61,16 @@ export const Contact = () => {
                 <div className="font-display font-semibold">+91 78773 05296</div>
               </div>
             </a>
-            <div className="flex items-center gap-4 rounded-2xl border border-border/60 gradient-card p-4">
+            <a href={`tel:+${CALL_NUMBER}`}
+              className="flex items-center gap-4 rounded-2xl border border-border/60 gradient-card p-4 transition-smooth hover:shadow-soft">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl gradient-red text-primary-foreground">
                 <Phone className="h-5 w-5" />
               </div>
               <div>
                 <div className="text-xs text-muted-foreground">Call us</div>
-                <div className="font-display font-semibold">+91 99999 99999</div>
+                <div className="font-display font-semibold">+91 86194 41458</div>
               </div>
-            </div>
+            </a>
             <div className="flex items-center gap-4 rounded-2xl border border-border/60 gradient-card p-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl gradient-gold">
                 <Mail className="h-5 w-5 text-foreground" />
