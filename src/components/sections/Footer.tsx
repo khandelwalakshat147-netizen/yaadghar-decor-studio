@@ -1,5 +1,5 @@
 import { Instagram, Facebook, MessageCircle, Mail } from "lucide-react";
-import { waLink } from "@/lib/site";
+import { waLink, EMAIL } from "@/lib/site";
 
 export const Footer = () => {
   return (
@@ -30,7 +30,7 @@ export const Footer = () => {
               className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/15 hover:bg-primary-foreground/25 transition-smooth">
               <MessageCircle className="h-4 w-4" />
             </a>
-            <a href="mailto:hello@yaadghar.in" aria-label="Email" className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/15 hover:bg-primary-foreground/25 transition-smooth">
+            <a href={`mailto:${EMAIL}`} aria-label="Email" className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/15 hover:bg-primary-foreground/25 transition-smooth">
               <Mail className="h-4 w-4" />
             </a>
           </div>
