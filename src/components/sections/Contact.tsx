@@ -87,7 +87,7 @@ export const Contact = () => {
               </div>
               <div>
                 <div className="text-xs text-muted-foreground">Ships from</div>
-                <div className="font-display font-semibold">India · PAN India delivery</div>
+                <div className="font-display font-semibold">Alwar (Rajasthan) · PAN India delivery</div>
               </div>
             </div>
           </div>
