@@ -165,9 +165,9 @@ export const Contact = () => {
                 placeholder="Sizes, quantity, theme, any custom text…" />
               {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
             </div>
-            <Button type="submit" variant="hero" size="lg" className="w-full">
+            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               <MessageCircle className="h-5 w-5" />
-              Send Inquiry on WhatsApp
+              {submitting ? "Submitting..." : "Send Inquiry on WhatsApp"}
             </Button>
             <p className="text-xs text-center text-muted-foreground">
               We typically respond within 15 minutes during business hours.
