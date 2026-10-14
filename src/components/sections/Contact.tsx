@@ -6,8 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { MessageCircle, Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { waLink, WHATSAPP_NUMBER, CALL_NUMBER, EMAIL } from "@/lib/site";
+
+const SHEET_WEBAPP_URL =
+  "https://script.google.com/macros/s/AKfycbxJHBM9DNwMQrf86MjP_Ow3Yey9DQPrcgkgfkrgiv6yNAakXw91d9xOJ2Rl-2VegUhLTQ/exec";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(60),
