@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = "917877305296";
+export const WHATSAPP_NUMBER = "919352957678";
 export const CALL_NUMBER = "918619441458";
 export const EMAIL = "yaadghar2026@gmail.com";
 export const BRAND = "Yaad Ghar";
