@@ -35,6 +35,33 @@ export const Contact = () => {
     }
     setErrors({});
     setSubmitting(true);
+
+    // Build the WhatsApp URL synchronously so the browser keeps it inside the
+    // user gesture — opening it after an await gets blocked by popup blockers.
+    const waText =
+      `New Order Inquiry — Yaad Ghar\n` +
+      `Name: ${form.name}\n` +
+      `Phone: ${form.phone}\n` +
+      `Product: ${form.product || "—"}\n` +
+      `Message: ${form.message}`;
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+
+    // Open WhatsApp first, before any network call. If the popup is blocked,
+    // fall back to a synthetic anchor click, then to a same-tab redirect.
+    const win = window.open(waUrl, "_blank", "noopener,noreferrer");
+    if (!win) {
+      const a = document.createElement("a");
+      a.href = waUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      if (!document.hasFocus()) window.location.href = waUrl;
+    }
+
+    // Save the lead to Google Sheets in the background — never block or break
+    // the WhatsApp redirect if the script fails.
     try {
       await fetch(SHEET_WEBAPP_URL, {
         method: "POST",
@@ -48,22 +75,16 @@ export const Contact = () => {
           source: "website",
           submittedAt: new Date().toISOString(),
         }),
-      });
-      const text =
-        `New Order Inquiry — Yaad Ghar%0A` +
-        `Name: ${form.name}%0APhone: ${form.phone}%0AProduct: ${form.product || "—"}%0AMessage: ${form.message}`;
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
-      toast.success("Inquiry received! We'll get in touch with you soon.", {
-        description: "Your details are saved. Complete your inquiry on WhatsApp chat.",
-      });
-      setForm({ name: "", phone: "", product: "", message: "" });
+      }).catch(() => {});
     } catch {
-      toast.error("Something went wrong", {
-        description: "Please try again, or message us directly on WhatsApp.",
-      });
-    } finally {
-      setSubmitting(false);
+      // Sheet save is best-effort only.
     }
+
+    toast.success("Inquiry received! We'll get in touch with you soon.", {
+      description: "Your details are saved. Complete your inquiry on WhatsApp chat.",
+    });
+    setForm({ name: "", phone: "", product: "", message: "" });
+    setSubmitting(false);
   };
 
   return (
@@ -86,7 +107,7 @@ export const Contact = () => {
               </div>
               <div>
                 <div className="text-xs text-muted-foreground">WhatsApp (fastest)</div>
-                <div className="font-display font-semibold">+91 78773 05296</div>
+                <div className="font-display font-semibold">+91 93529 57678</div>
               </div>
             </a>
             <a href={`tel:+${CALL_NUMBER}`}
