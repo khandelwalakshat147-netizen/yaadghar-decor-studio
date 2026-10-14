@@ -6,8 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { MessageCircle, Mail, Phone, MapPin, Instagram, Facebook } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { waLink, WHATSAPP_NUMBER, CALL_NUMBER, EMAIL } from "@/lib/site";
+
+const SHEET_WEBAPP_URL =
+  "https://script.google.com/macros/s/AKfycbxJHBM9DNwMQrf86MjP_Ow3Yey9DQPrcgkgfkrgiv6yNAakXw91d9xOJ2Rl-2VegUhLTQ/exec";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(60),
@@ -19,8 +22,9 @@ const schema = z.object({
 export const Contact = () => {
   const [form, setForm] = useState({ name: "", phone: "", product: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -30,12 +34,36 @@ export const Contact = () => {
       return;
     }
     setErrors({});
-    const text =
-      `New Order Inquiry — Yaad Ghar%0A` +
-      `Name: ${form.name}%0APhone: ${form.phone}%0AProduct: ${form.product || "—"}%0AMessage: ${form.message}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
-    toast({ title: "Sending you to WhatsApp", description: "Complete your inquiry on WhatsApp chat." });
-    setForm({ name: "", phone: "", product: "", message: "" });
+    setSubmitting(true);
+    try {
+      await fetch(SHEET_WEBAPP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          product: form.product || "—",
+          message: form.message,
+          source: "website",
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+      const text =
+        `New Order Inquiry — Yaad Ghar%0A` +
+        `Name: ${form.name}%0APhone: ${form.phone}%0AProduct: ${form.product || "—"}%0AMessage: ${form.message}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
+      toast.success("Inquiry received! We'll get in touch with you soon.", {
+        description: "Your details are saved. Complete your inquiry on WhatsApp chat.",
+      });
+      setForm({ name: "", phone: "", product: "", message: "" });
+    } catch {
+      toast.error("Something went wrong", {
+        description: "Please try again, or message us directly on WhatsApp.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -137,9 +165,9 @@ export const Contact = () => {
                 placeholder="Sizes, quantity, theme, any custom text…" />
               {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
             </div>
-            <Button type="submit" variant="hero" size="lg" className="w-full">
+            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               <MessageCircle className="h-5 w-5" />
-              Send Inquiry on WhatsApp
+              {submitting ? "Submitting..." : "Send Inquiry on WhatsApp"}
             </Button>
             <p className="text-xs text-center text-muted-foreground">
               We typically respond within 15 minutes during business hours.
