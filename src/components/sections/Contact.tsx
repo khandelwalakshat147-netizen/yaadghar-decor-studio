@@ -22,8 +22,9 @@ const schema = z.object({
 export const Contact = () => {
   const [form, setForm] = useState({ name: "", phone: "", product: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -33,12 +34,36 @@ export const Contact = () => {
       return;
     }
     setErrors({});
-    const text =
-      `New Order Inquiry — Yaad Ghar%0A` +
-      `Name: ${form.name}%0APhone: ${form.phone}%0AProduct: ${form.product || "—"}%0AMessage: ${form.message}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
-    toast({ title: "Sending you to WhatsApp", description: "Complete your inquiry on WhatsApp chat." });
-    setForm({ name: "", phone: "", product: "", message: "" });
+    setSubmitting(true);
+    try {
+      await fetch(SHEET_WEBAPP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          product: form.product || "—",
+          message: form.message,
+          source: "website",
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+      const text =
+        `New Order Inquiry — Yaad Ghar%0A` +
+        `Name: ${form.name}%0APhone: ${form.phone}%0AProduct: ${form.product || "—"}%0AMessage: ${form.message}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
+      toast.success("Inquiry received! We'll get in touch with you soon.", {
+        description: "Your details are saved. Complete your inquiry on WhatsApp chat.",
+      });
+      setForm({ name: "", phone: "", product: "", message: "" });
+    } catch {
+      toast.error("Something went wrong", {
+        description: "Please try again, or message us directly on WhatsApp.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
